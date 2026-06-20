@@ -5,7 +5,7 @@ from PIL import Image
 import os
 
 # ==========================================
-# 0. HÀM TRẢ VỀ CSS PREMIUM (CHỐNG LỖI SUB STRING)
+# 0. HÀM TRẢ VỀ CSS PREMIUM (ĐẲNG CẤP & ỔN ĐỊNH)
 # ==========================================
 def get_css():
     return """
@@ -128,10 +128,8 @@ st.set_page_config(
     layout="centered"
 )
 
-# Gọi hàm lấy CSS sạch sẽ
 st.markdown(get_css(), unsafe_allow_html=True)
 
-# Khối thương hiệu hoàng gia
 st.markdown("""
     <div class='brand-container'>
         <div class='brand-title'>PalmID</div>
@@ -151,4 +149,16 @@ def load_my_model():
         model = tf.keras.models.load_model(MODEL_PATH, compile=False)
         return model
     else:
-        st.error
+        st.error(f"Không tìm thấy file mô hình '{MODEL_PATH}'. Vui lòng kiểm tra lại trên thư mục của bạn.")
+        return None
+
+model = load_my_model()
+
+# ==========================================
+# 3. THUẬT TOÁN LUẬN GIẢI CHỈ TAY CHI TIẾT
+# ==========================================
+def generate_fortune(sunghiep, tridao, tamdao, sinhdao):
+    fortunes = {}
+    
+    # --- 1. SỰ NGHIỆP ---
+    if sunghiep
