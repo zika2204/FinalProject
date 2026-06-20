@@ -133,32 +133,4 @@ st.markdown(get_css(), unsafe_allow_html=True)
 st.markdown("""
     <div class='brand-container'>
         <div class='brand-title'>PalmID</div>
-        <div class='brand-subtitle'>✨ HỆ THỐNG TRÍCH XUẤT VẬN MỆNH THƯỢNG LƯU BẰNG AI ✨</div>
-    </div>
-""", unsafe_allow_html=True)
-
-# ==========================================
-# 2. TẢI MÔ HÌNH H5
-# ==========================================
-MODEL_PATH = 'chitay_compact.h5'
-IMG_SIZE = (128, 128)
-
-@st.cache_resource
-def load_my_model():
-    if os.path.exists(MODEL_PATH):
-        model = tf.keras.models.load_model(MODEL_PATH, compile=False)
-        return model
-    else:
-        st.error(f"Không tìm thấy file mô hình '{MODEL_PATH}'. Vui lòng kiểm tra lại trên thư mục của bạn.")
-        return None
-
-model = load_my_model()
-
-# ==========================================
-# 3. THUẬT TOÁN LUẬN GIẢI CHỈ TAY CHI TIẾT
-# ==========================================
-def generate_fortune(sunghiep, tridao, tamdao, sinhdao):
-    fortunes = {}
-    
-    # --- 1. SỰ NGHIỆP ---
-    if sunghiep
+        <div class='brand-subtitle'>✨ HỆ THỐNG TRÍCH XUẤT VẬN MỆNH THƯỢNG LƯU BẰ
