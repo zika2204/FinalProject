@@ -9,7 +9,6 @@ st.set_page_config(
     page_icon="🔮",
     layout="centered"
 )
-
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
