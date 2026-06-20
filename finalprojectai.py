@@ -90,7 +90,7 @@ history = model.fit(
     callbacks=[early_stopping]
 )
 
-model.save('chitay_compact.h5')
+model.save('chitay.h5')
 print("Đã train và lưu mô hình dự đoán chỉ tay thành công!")
 
 import os
