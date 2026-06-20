@@ -4,27 +4,19 @@ import tensorflow as tf
 from PIL import Image
 import os
 
-# ==========================================
-# 1. CẤU HÌNH GIAO DIỆN HIỆN ĐẠI & ĐẲNG CẤP (PALMID)
-# ==========================================
 st.set_page_config(
     page_title="PalmID - Xem Bói Chỉ Tay AI",
     page_icon="🔮",
     layout="centered"
 )
 
-# Nâng cấp toàn diện UI với Font chữ Premium và Hiệu ứng Đổ bóng hiện đại
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-
-    /* Áp dụng font chữ hiện đại cho toàn bộ app */
     html, body, [data-testid="stAppViewContainer"] {
         font-family: 'Plus Jakarta Sans', sans-serif;
         background-color: #FAFAFA;
     }
-
-    /* Khối tiêu đề thương hiệu PalmID huyền bí & sang trọng */
     .brand-container {
         text-align: center;
         padding: 20px 0 10px 0;
@@ -70,7 +62,6 @@ st.markdown("""
         transform: translateY(-1px);
     }
 
-    /* Hộp kết quả bói toán được làm mượt (Glassmorphism nhẹ) */
     .prediction-box {
         background: #FFFFFF;
         border-left: 6px solid #FF6F00;
@@ -92,7 +83,6 @@ st.markdown("""
         letter-spacing: 0.5px;
     }
     
-    /* Thiết kế lại các Badge trạng thái */
     .status-badge {
         display: inline-block;
         padding: 5px 14px;
@@ -106,8 +96,6 @@ st.markdown("""
     .badge-short { background-color: #FFF3E0; color: #E65100; border: 1px solid #FFE0B2; }
     .badge-medium { background-color: #FFF3E0; color: #FB8C00; border: 1px solid #FFE0B2; }
     .badge-long { background-color: #E65100; color: white; }
-
-    /* Định dạng văn bản trong hộp kết quả */
     .prediction-text {
         font-size: 1rem;
         line-height: 1.6;
@@ -128,7 +116,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Khối thương hiệu trung tâm
 st.markdown("""
     <div class='brand-container'>
         <div class='brand-title'>PalmID</div>
@@ -136,9 +123,6 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# ==========================================
-# 2. TẢI MÔ HÌNH H5
-# ==========================================
 MODEL_PATH = 'chitay_compact.h5'
 IMG_SIZE = (128, 128)
 
@@ -153,13 +137,8 @@ def load_my_model():
 
 model = load_my_model()
 
-# ==========================================
-# 3. THUẬT TOÁN LUẬN GIẢI CHỈ TAY CHI TIẾT
-# ==========================================
 def generate_fortune(sunghiep, tridao, tamdao, sinhdao):
     fortunes = {}
-    
-    # --- 1. SỰ NGHIỆP ---
     if sunghiep < 0.35:
         fortunes['sunghiep'] = {
             "status": "Đang định hình (Ngắn/Mờ)",
@@ -181,8 +160,6 @@ def generate_fortune(sunghiep, tridao, tamdao, sinhdao):
             "meaning": "Đường sự nghiệp dài, đậm nét chứng tỏ bạn mang số mệnh của người làm chủ, quyết đoán và có ý chí kiên cường bẩm sinh. Bạn dễ khẳng định được chỗ đứng vững chắc và đạt thành tựu tài chính lớn trước tuổi 35.",
             "advice": "Tướng làm chủ thường đi kèm với áp lực tinh thần rất cao. Bạn cần chú ý lắng nghe ý kiến đóng góp từ những người xung quanh và học cách phân chia thời gian hợp lý để tránh rơi vào trạng thái kiệt sức."
         }
-
-    # --- 2. TRÍ ĐẠO (TRÍ TUỆ) ---
     if tridao < 0.40:
         fortunes['tridao'] = {
             "status": "Thực tế, nhạy bén (Ngắn/Mờ)",
@@ -204,8 +181,6 @@ def generate_fortune(sunghiep, tridao, tamdao, sinhdao):
             "meaning": "Bạn có một tư duy logic cực kỳ xuất sắc, khả năng tập trung cao độ và có xu hướng đào sâu nghiên cứu bản chất của mọi sự vật. Tuy nhiên, bạn cũng là người dễ bị rơi vào trạng thái suy nghĩ quá nhiều (overthinking).",
             "advice": "Suy nghĩ sâu sắc là món quà, nhưng đừng biến nó thành rào cản hành động. Hãy rèn luyện kỹ năng thả lỏng tâm trí, thực hành thiền định hoặc các bộ môn thể thao giải tỏa căng thẳng để đầu óc không bị quá tải."
         }
-
-    # --- 3. TÂM ĐẠO (TÌNH DUYÊN & CẢM XÚC) ---
     if tamdao < 0.40:
         fortunes['tamdao'] = {
             "status": "Lý trí, kín kẽ (Ngắn/Mờ)",
@@ -227,8 +202,6 @@ def generate_fortune(sunghiep, tridao, tamdao, sinhdao):
             "meaning": "Mô hình nhận diện đường tâm đạo của bạn rất phát triển, cho thấy bạn là người sống nồng nhiệt, nhạy cảm và luôn sẵn sàng hy sinh hết mình cho người mình yêu. Bạn dễ bị ảnh hưởng tâm lý mạnh mẽ bởi vui buồn của người khác.",
             "advice": "Khi bạn trao đi quá nhiều, bạn sẽ dễ bị tổn thương sâu sắc khi thực tế không như kỳ vọng. Lời khuyên lớn nhất là hãy thiết lập ranh giới cảm xúc và học cách yêu thương, trân trọng bản thân trước khi kỳ vọng điều đó từ người khác."
         }
-
-    # --- 4. SINH ĐẠO (SỨC KHỎE & THỂ TRẠNG) ---
     if sinhdao < 0.50:
         fortunes['sinhdao'] = {
             "status": "Cơ địa nhạy cảm (Ngắn/Mờ)",
@@ -246,43 +219,29 @@ def generate_fortune(sunghiep, tridao, tamdao, sinhdao):
         
     return fortunes
 
-# ==========================================
-# 4. THỰC THI ỨNG DỤNG VÀ DỰ ĐOÁN
-# ==========================================
 if model is not None:
     img_file_buffer = st.camera_input("Vui lòng giữ bàn tay thẳng, rõ nét trước ống kính camera")
 
     if img_file_buffer is not None:
         image = Image.open(img_file_buffer)
-        
-        # Tiền xử lý ảnh theo đúng kích thước đầu vào mô hình
         img_resized = image.resize(IMG_SIZE)
         img_array = np.array(img_resized) / 255.0
         img_input = np.expand_dims(img_array, axis=0)
         
         if st.button("🔮 BẮT ĐẦU PHÂN TÍCH VẬN MỆNH 🔮"):
             with st.spinner("Hệ thống PalmID đang quét cấu trúc đường chỉ tay..."):
-                # Gọi Model dự đoán ra mảng kết quả số thực
                 predictions = model.predict(img_input)[0]
-                
-                # Cắt giá trị trong khoảng [0.0, 1.0] để tránh lỗi biên tuyến tính
                 sunghiep, tridao, tamdao, sinhdao = np.clip(predictions, 0.0, 1.0)
-                
-                # Trích xuất luận giải tự động dựa trên kết quả của mô hình
                 result_fortune = generate_fortune(sunghiep, tridao, tamdao, sinhdao)
                 
                 st.success("✨ Đã phân tích bản đồ bàn tay thành công! Dưới đây là kết quả luận giải chi tiết từ PalmID:")
                 st.write("---")
-                
-                # Mảng ánh xạ để lặp thông tin hiển thị lên giao diện
                 keys = ['sunghiep', 'tridao', 'tamdao', 'sinhdao']
                 display_names = ["💼 ĐƯỜNG SỰ NGHIỆP", "🧠 ĐƯỜNG TRÍ ĐẠO", "❤️ ĐƯỜNG TÂM ĐẠO", "🌱 ĐƯỜNG SINH ĐẠO"]
                 
                 for key, name in zip(keys, display_names):
                     data = result_fortune[key]
                     score = predictions[keys.index(key)]
-                    
-                    # Thay đổi cấu trúc HTML bên trong sang class mới tối ưu hơn
                     st.markdown(f"""
                     <div class="prediction-box">
                         <div class="prediction-title">{name} <span style='color: #888; font-size: 0.9rem; font-weight: normal;'>(Chỉ số nét: {score:.2f})</span></div>
