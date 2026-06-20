@@ -5,7 +5,7 @@ from PIL import Image
 import os
 
 # ==========================================
-# 1. CẤU HÌNH GIAO DIỆN HIỆN ĐẠI (PALMID)
+# 1. CẤU HÌNH GIAO DIỆN HIỆN ĐẠI & ĐẲNG CẤP (PALMID)
 # ==========================================
 st.set_page_config(
     page_title="PalmID - Xem Bói Chỉ Tay AI",
@@ -13,75 +13,128 @@ st.set_page_config(
     layout="centered"
 )
 
-# Thiết kế UI với màu cam chủ đạo tinh tế và hiện đại
+# Nâng cấp toàn diện UI với Font chữ Premium và Hiệu ứng Đổ bóng hiện đại
 st.markdown("""
     <style>
-    /* Nút bấm Camera và Dự đoán */
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+    /* Áp dụng font chữ hiện đại cho toàn bộ app */
+    html, body, [data-testid="stAppViewContainer"] {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #FAFAFA;
+    }
+
+    /* Khối tiêu đề thương hiệu PalmID huyền bí & sang trọng */
+    .brand-container {
+        text-align: center;
+        padding: 20px 0 10px 0;
+    }
+    .brand-title {
+        font-family: 'Cinzel', serif;
+        background: linear-gradient(135deg, #FF6F00 0%, #FFA000 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800;
+        font-size: 3.8rem;
+        margin-bottom: 0px;
+        letter-spacing: 3px;
+        filter: drop-shadow(0px 4px 8px rgba(230, 81, 0, 0.2));
+    }
+    .brand-subtitle {
+        color: #555555;
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 35px;
+        letter-spacing: 0.5px;
+    }
+
+    /* Nút bấm Camera và Dự đoán hiệu ứng mềm mại */
     div.stButton > button:first-child {
         background: linear-gradient(135deg, #FF6F00 0%, #E65100 100%);
         color: white;
-        border-radius: 12px;
+        border-radius: 16px;
         border: none;
-        font-weight: bold;
-        padding: 0.75rem 2rem;
+        font-weight: 700;
+        padding: 0.85rem 2rem;
         width: 100%;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        font-size: 1.15rem;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        box-shadow: 0px 6px 20px rgba(230, 81, 0, 0.25);
     }
     div.stButton > button:first-child:hover {
-        transform: translateY(-2px);
-        box-shadow: 0px 6px 15px rgba(230, 81, 0, 0.4);
+        transform: translateY(-3px);
+        box-shadow: 0px 8px 25px rgba(230, 81, 0, 0.45);
         color: white;
     }
-    /* Khối tiêu đề thương hiệu PalmID */
-    .brand-title {
-        color: #E65100;
-        text-align: center;
-        font-weight: 800;
-        font-size: 2.8rem;
-        margin-bottom: 5px;
-        letter-spacing: 1px;
+    div.stButton > button:first-child:active {
+        transform: translateY(-1px);
     }
-    .brand-subtitle {
-        color: #666;
-        text-align: center;
-        font-size: 1.1rem;
-        margin-bottom: 30px;
-    }
-    /* Hộp kết quả bói toán phân tách rõ ràng */
+
+    /* Hộp kết quả bói toán được làm mượt (Glassmorphism nhẹ) */
     .prediction-box {
-        background-color: #FFF8F2;
+        background: #FFFFFF;
         border-left: 6px solid #FF6F00;
-        padding: 20px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        box-shadow: 0px 2px 8px rgba(255, 111, 0, 0.08);
+        padding: 24px;
+        border-radius: 16px;
+        margin-bottom: 22px;
+        box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.04);
+        transition: all 0.3s ease;
+    }
+    .prediction-box:hover {
+        transform: scale(1.01);
+        box-shadow: 0px 8px 25px rgba(255, 111, 0, 0.08);
     }
     .prediction-title {
         color: #E65100;
-        font-weight: bold;
-        font-size: 1.2rem;
-        margin-bottom: 10px;
-        border-bottom: 1px dashed #FFD1A9;
-        padding-bottom: 5px;
+        font-weight: 700;
+        font-size: 1.25rem;
+        margin-bottom: 12px;
+        letter-spacing: 0.5px;
     }
+    
+    /* Thiết kế lại các Badge trạng thái */
     .status-badge {
         display: inline-block;
-        padding: 3px 10px;
-        border-radius: 20px;
+        padding: 5px 14px;
+        border-radius: 30px;
         font-size: 0.85rem;
-        font-weight: bold;
-        margin-bottom: 10px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
-    .badge-short { background-color: #FFE0B2; color: #E65100; }
-    .badge-medium { background-color: #FFE0B2; color: #FB8C00; }
-    .badge-long { background-color: #F57C00; color: white; }
+    .badge-short { background-color: #FFF3E0; color: #E65100; border: 1px solid #FFE0B2; }
+    .badge-medium { background-color: #FFF3E0; color: #FB8C00; border: 1px solid #FFE0B2; }
+    .badge-long { background-color: #E65100; color: white; }
+
+    /* Định dạng văn bản trong hộp kết quả */
+    .prediction-text {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #333333;
+        margin-top: 8px;
+    }
+    .advice-text {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #D35400;
+        font-weight: 600;
+        background-color: #FFF8F2;
+        padding: 12px 16px;
+        border-radius: 10px;
+        margin-top: 12px;
+        border-left: 3px solid #FF9800;
+    }
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown("<div class='brand-title'>PalmID</div>", unsafe_allow_html=True)
-st.markdown("<div class='brand-subtitle'>🔮 Hệ Thống Trích Xuất Vận Mệnh & Xem Bói Chỉ Tay Bằng AI 🔮</div>", unsafe_allow_html=True)
+# Khối thương hiệu trung tâm
+st.markdown("""
+    <div class='brand-container'>
+        <div class='brand-title'>PalmID</div>
+        <div class='brand-subtitle'>🔮 Hệ Thống Trích Xuất Vận Mệnh & Xem Bói Chỉ Tay Bằng AI 🔮</div>
+    </div>
+""", unsafe_allow_html=True)
 
 # ==========================================
 # 2. TẢI MÔ HÌNH H5
@@ -229,12 +282,13 @@ if model is not None:
                     data = result_fortune[key]
                     score = predictions[keys.index(key)]
                     
+                    # Thay đổi cấu trúc HTML bên trong sang class mới tối ưu hơn
                     st.markdown(f"""
                     <div class="prediction-box">
-                        <div class="prediction-title">{name} (Chỉ số nét: {score:.2f})</div>
+                        <div class="prediction-title">{name} <span style='color: #888; font-size: 0.9rem; font-weight: normal;'>(Chỉ số nét: {score:.2f})</span></div>
                         <span class="status-badge {data['class']}">{data['status']}</span>
-                        <p style='margin-top: 10px;'><b>Luận giải:</b> {data['meaning']}</p>
-                        <p style='color: #D35400; font-weight: 500;'><b>💡 Lời khuyên định hướng:</b> {data['advice']}</p>
+                        <div class="prediction-text"><b>Luận giải:</b> {data['meaning']}</div>
+                        <div class="advice-text"><b>💡 Lời khuyên định hướng:</b> {data['advice']}</div>
                     </div>
                     """, unsafe_allow_html=True)
                     
