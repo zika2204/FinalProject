@@ -9,7 +9,7 @@ import os
 # ==========================================
 st.set_page_config(
     page_title="PalmID - Xem Bói Chỉ Tay AI",
-    page_icon="✋",
+    page_icon="🔮",
     layout="centered"
 )
 
@@ -80,7 +80,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown("<div class='brand-title'>✋ PalmID</div>", unsafe_allow_html=True)
+st.markdown("<div class='brand-title'>PalmID</div>", unsafe_allow_html=True)
 st.markdown("<div class='brand-subtitle'>🔮 Hệ Thống Trích Xuất Vận Mệnh & Xem Bói Chỉ Tay Bằng AI 🔮</div>", unsafe_allow_html=True)
 
 # ==========================================
