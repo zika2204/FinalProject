@@ -5,7 +5,7 @@ from PIL import Image
 import os
 
 # ==========================================
-# 0. HÀM TRẢ VỀ CSS PREMIUM (ĐẲNG CẤP & ỔN ĐỊNH)
+# 0. HÀM TRẢ VỀ CSS PREMIUM (ĐẶC BIỆT CHỐNG LỖI CHUỖI)
 # ==========================================
 def get_css():
     return """
@@ -128,9 +128,21 @@ st.set_page_config(
     layout="centered"
 )
 
+# Thực thi CSS an toàn
 st.markdown(get_css(), unsafe_allow_html=True)
 
-st.markdown("""
-    <div class='brand-container'>
-        <div class='brand-title'>PalmID</div>
-        <div class='brand-subtitle'>✨ HỆ THỐNG TRÍCH XUẤT VẬN MỆNH THƯỢNG LƯU BẰ
+# Khối thương hiệu hoàng gia (Đã chuyển sang chuỗi một dòng an toàn tuyệt đối)
+st.markdown("<div class='brand-container'><div class='brand-title'>PalmID</div><div class='brand-subtitle'>✨ HỆ THỐNG TRÍCH XUẤT VẬN MỆNH THƯỢNG LƯU BẰNG AI ✨</div></div>", unsafe_allow_html=True)
+
+# Kích khởi các trạng thái bộ nhớ ban đầu nếu chưa có
+if 'analyzed' not in st.session_state:
+    st.session_state['analyzed'] = False
+
+# ==========================================
+# 2. TẢI MÔ HÌNH H5
+# ==========================================
+MODEL_PATH = 'chitay_compact.h5'
+IMG_SIZE = (128, 128)
+
+@st.cache_resource
+def load_my_model():
