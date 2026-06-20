@@ -86,7 +86,7 @@ st.markdown("<div class='brand-subtitle'>🔮 Hệ Thống Trích Xuất Vận M
 # ==========================================
 # 2. TẢI MÔ HÌNH H5
 # ==========================================
-MODEL_PATH = 'chitay_compact.h5'
+MODEL_PATH = 'chitay.h5'
 IMG_SIZE = (128, 128)
 
 @st.cache_resource
