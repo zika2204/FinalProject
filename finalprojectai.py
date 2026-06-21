@@ -17,7 +17,7 @@ from sklearn.model_selection import train_test_split
 
 CSV_PATH = 'label_chitay_final.csv'
 IMAGE_DIR = '/content/drive/MyDrive/AI_Processed_Pics'
-IMG_SIZE = (128, 128)
+IMG_SIZE = (200,200)
 BATCH_SIZE = 32
 EPOCHS = 2
 
