@@ -122,7 +122,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-MODEL_PATH = 'chitay.h5'
+MODEL_PATH = 'ai.h5'
 IMG_SIZE = (128, 128)
 
 @st.cache_resource
